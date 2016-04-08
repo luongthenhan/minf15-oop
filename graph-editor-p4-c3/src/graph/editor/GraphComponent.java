@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -65,8 +66,6 @@ public class GraphComponent extends JComponent implements MouseInputListener, Ke
 			if (v.contains(x, y)) {
 				dx = (int) (x - v.getShape().getCenterX());
 				dy = (int) (y - v.getShape().getCenterY());
-				System.out.println(dx);
-				System.out.println(dy);
 				return v;
 			}
 		}
@@ -96,13 +95,12 @@ public class GraphComponent extends JComponent implements MouseInputListener, Ke
 	}
 
 	private void removeVertex(Vertex v) {
-		List<Edge> toRemove = new ArrayList<Edge>();
-		for (Edge e : edges) {
+		Iterator<Edge> iter = edges.iterator();
+		while (iter.hasNext()) {
+			Edge e = iter.next();
 			if (e.v1 == v || e.v2 == v)
-				toRemove.add(e);
+				iter.remove();
 		}
-		for (Edge e : toRemove)
-			removeEdge(e);
 		vertices.remove(v);
 	}
 
